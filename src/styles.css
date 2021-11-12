@@ -1,0 +1,25 @@
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.basic-container {
+  padding: 30px;
+}
+
+/* Buttons */
+.button-row {
+  display: table-cell;
+  width: 73px;
+  padding-bottom: 17px;
+}
+
+/* Snackbar */
+.blue-snackbar {
+  background: #2196F3;
+}
+
+.red-snackbar {
+  background: #F44336;
+}
+

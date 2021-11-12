@@ -1,0 +1,11 @@
+table {
+    width: 100%;
+}
+
+.mat-column-age {
+  padding-right: 22px;
+}
+
+.mat-footer-row{
+  text-align: center;
+}
