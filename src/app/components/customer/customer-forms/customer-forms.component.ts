@@ -16,27 +16,33 @@ export class CustomerFormsComponent implements OnInit {
   model: CustomerClass = new CustomerClass();
 
   customerForm: FormGroup
+  maxDate: Date;
 
-  constructor(private customerSharedService: CustomerSharedService) {}
+  constructor(private customerSharedService: CustomerSharedService) {
+    this.getMaxDate();
+  }
 
   ngOnInit(): void {
     this.customerForm = new FormGroup({
       fname: new FormControl(this.model.firstName, [Validators.required]),
       mname: new FormControl(this.model.lastName),
       lname: new FormControl(this.model.lastName, [Validators.required]),
-      age: new FormControl(this.model.age, [Validators.required]),
+      age: new FormControl(this.model.age),
       bdate: new FormControl(this.model.birthdate, [Validators.required])
     })
 
     //Subscription for editing
     this.subcription = this.customerSharedService.getDetails().subscribe
-    (
+      (
         data => {
-          if (data.details != null){
+          if (data.details != null) {
             this.model = Object.assign(this.model, data.details);
           }
         }
-    )
+      )
+
+    //Disabling of fields
+    this.customerForm.controls.age.disable();
   }
 
   //Reactive Form, get values
@@ -64,5 +70,24 @@ export class CustomerFormsComponent implements OnInit {
   onClearForm() {
     this.model = new CustomerClass();
     this.customerForm.reset();
+  }
+
+  getMaxDate() {
+    const currentDate = new Date();
+    this.maxDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
+  }
+
+  setBirthdateForAge(event: any) {
+    const dateOfBirth = new Date(event.value);
+    const dateToday = new Date();
+
+    var years = (dateToday.getFullYear() - dateOfBirth.getFullYear());
+
+    if (dateToday.getMonth() < dateOfBirth.getMonth() || dateToday.getMonth() == dateOfBirth.getMonth()
+      && dateToday.getDate() < dateOfBirth.getDate()) {
+      years--;
+    }
+
+    this.model.age = years;
   }
 }
